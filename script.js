@@ -53,12 +53,29 @@ document.addEventListener('DOMContentLoaded', () => {
         watermarkContainer: document.querySelector('.watermark-container')
     };
 
-    // --- Course Data (Updated for 2 Teachers) ---
+    // --- Course Data (2 Teachers Support) ---
     const courseData = [
         {
-            id: "cse4714",
-            code: "CSE 4714",
-            title: "Simulation and Modeling Sessional",
+            id: "cse3222",
+            code: "CSE 3222",
+            title: "Operating System Sessional",
+            teacher1: {
+                name: "Dr. Md. Nasim Akter",
+                designation: "Professor",
+                dept: "Dept. of CSE",
+                campus: "DUET, Gazipur"
+            },
+            teacher2: {
+                name: "Dr. Momotaz Begum",
+                designation: "Professor",
+                dept: "Dept. of CSE",
+                campus: "DUET, Gazipur"
+            }
+        },
+        {
+            id: "cse3214",
+            code: "CSE 3214",
+            title: "Computer Networks Sessional",
             teacher1: {
                 name: "Dr. Momotaz Begum",
                 designation: "Professor",
@@ -66,43 +83,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 campus: "DUET, Gazipur"
             },
             teacher2: {
-                name: "Md. Abu Bakkar Siddique",
-                designation: "Assistant Professor",
-                dept: "Dept. of CSE",
-                campus: "DUET, Gazipur"
-            }
-        },
-        {
-            id: "cse4612",
-            code: "CSE 4612",
-            title: "Machine Learning Sessional",
-            teacher1: {
-                name: "Dr. Fazlul Hasan Siddiqui",
-                designation: "Professor",
-                dept: "Dept. of CSE",
-                campus: "DUET, Gazipur"
-            },
-            teacher2: {
-                name: "Dr. Amran Hossain",
+                name: "Dr. Md. Obaidur Rahman",
                 designation: "Professor",
                 dept: "Dept. of CSE",
                 campus: "DUET, Gazipur"
             }
         },
         {
-            id: "cse4212",
-            code: "CSE 4212",
-            title: "Compiler Design Sessional",
+            id: "hum3216",
+            code: "HUM 3216",
+            title: "Industrial Management and Law",
             teacher1: {
-                name: "Dr. Shafiqul Islam",
-                designation: "Professor",
-                dept: "Dept. of CSE",
+                name: "Mr. Abul Kalam",
+                designation: "Associate Professor",
+                dept: "Dept. of Humanities",
                 campus: "DUET, Gazipur"
             },
             teacher2: {
-                name: "Md. Rajibul Islam",
-                designation: "Assistant Professor",
-                dept: "Dept. of CSE",
+                name: "Ms. Fatema Tuj Zohra",
+                designation: "Lecturer",
+                dept: "Dept. of Humanities",
                 campus: "DUET, Gazipur"
             }
         }
@@ -155,6 +155,19 @@ document.addEventListener('DOMContentLoaded', () => {
         elements.courseTitleOutput.textContent = elements.courseTitleInput.value;
         elements.reportNoOutput.textContent = elements.reportNoInput.value;
         elements.reportNameOutput.textContent = elements.reportNameInput.value;
+
+        // --- NEW: Handle Alignment for Report Name ---
+        const reportNameParent = elements.reportNameOutput.parentElement;
+        if (!elements.reportNameInput.value) {
+            // If empty, move to left to leave space for writing
+            reportNameParent.style.textAlign = 'left';
+            reportNameParent.style.paddingLeft = '1cm'; // Optional indent
+        } else {
+            // If text exists, center it
+            reportNameParent.style.textAlign = 'center';
+            reportNameParent.style.paddingLeft = '0';
+        }
+        // ---------------------------------------------
 
         // Submitted To - Teacher 1
         elements.submittedToName1Output.textContent = elements.submittedToName1Input.value;
@@ -247,11 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
         elements.watermarkContainer.appendChild(watermarkImg);
     };
 
-    /**
-     * Common helper to capture the cover page as an image and put it into a PDF.
-     */
     const createPdfObject = async () => {
-        // Ensure preview is up to date before capture
         updatePreview();
         saveData();
 
@@ -261,8 +270,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const coverPage = elements.coverPage;
-        
-        // Add class to fix dimensions for capture
         coverPage.classList.add('capture-mode');
 
         try {
@@ -275,7 +282,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             coverPage.classList.remove('capture-mode');
-
             const imgData = canvas.toDataURL('image/jpeg', 0.98); 
 
             const { jsPDF } = window.jspdf;
@@ -309,114 +315,4 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error(error);
             elements.generatePdfBtn.textContent = "Error!";
         } finally {
-            setTimeout(() => { elements.generatePdfBtn.innerHTML = originalText; }, 1000);
-        }
-    };
-
-    const handlePrintPdf = async () => {
-        const originalText = elements.printPdfBtn.innerHTML;
-        elements.printPdfBtn.textContent = "Preparing Print...";
-
-        try {
-            const pdf = await createPdfObject();
-            pdf.autoPrint();
-            pdf.output('dataurlnewwindow');
-        } catch (error) {
-            console.error(error);
-            elements.printPdfBtn.textContent = "Error!";
-        } finally {
-            setTimeout(() => { elements.printPdfBtn.innerHTML = originalText; }, 1000);
-        }
-    };
-
-    const handleJpgDownload = () => {
-        updatePreview();
-        saveData();
-        const coverPage = elements.coverPage;
-        
-        coverPage.classList.add('capture-mode'); 
-
-        html2canvas(coverPage, {
-            scale: 3, 
-            useCORS: true, 
-            onclone: (clonedDoc) => {
-                clonedDoc.getElementById('cover-page').classList.add('capture-mode');
-            }
-        }).then(canvas => {
-            coverPage.classList.remove('capture-mode'); 
-
-            const link = document.createElement('a');
-            link.href = canvas.toDataURL('image/jpeg', 0.95);
-            const fileName = `Cover - ${elements.courseCodeInput.value || 'Report'}.jpg`;
-            link.download = fileName;
-            link.click();
-        }).catch(err => {
-            console.error("Error during JPG generation:", err);
-            coverPage.classList.remove('capture-mode');
-        });
-    };
-
-    // --- Initialization & Event Listeners ---
-
-    // 1. Populate Dropdown
-    courseData.forEach(course => {
-        const option = document.createElement('option');
-        option.value = course.id;
-        option.textContent = `${course.code} - ${course.title}`;
-        elements.courseSelect.appendChild(option);
-    });
-
-    // 2. Dropdown Change Event - Updates BOTH teachers
-    elements.courseSelect.addEventListener('change', (e) => {
-        const selectedId = e.target.value;
-        const selectedCourse = courseData.find(c => c.id === selectedId);
-
-        if (selectedCourse) {
-            // Fill Course Info
-            elements.courseCodeInput.value = selectedCourse.code;
-            elements.courseTitleInput.value = selectedCourse.title;
-
-            // Fill Teacher 1
-            if (selectedCourse.teacher1) {
-                elements.submittedToName1Input.value = selectedCourse.teacher1.name;
-                elements.submittedToDesignation1Input.value = selectedCourse.teacher1.designation;
-                elements.submittedToDept1Input.value = selectedCourse.teacher1.dept;
-                elements.submittedToCampus1Input.value = selectedCourse.teacher1.campus;
-            }
-
-            // Fill Teacher 2
-            if (selectedCourse.teacher2) {
-                elements.submittedToName2Input.value = selectedCourse.teacher2.name;
-                elements.submittedToDesignation2Input.value = selectedCourse.teacher2.designation;
-                elements.submittedToDept2Input.value = selectedCourse.teacher2.dept;
-                elements.submittedToCampus2Input.value = selectedCourse.teacher2.campus;
-            }
-
-            updatePreview();
-            saveData();
-        }
-    });
-
-    // 3. Input Listeners (Auto-save on every keypress)
-    const inputs = document.querySelectorAll('.form-body input');
-    inputs.forEach(input => {
-        input.addEventListener('keyup', () => {
-            updatePreview();
-            saveData(); // Auto-save
-        });
-        input.addEventListener('change', () => {
-            updatePreview();
-            saveData(); // Auto-save
-        });
-    });
-
-    // 4. Button Listeners
-    elements.generatePdfBtn.addEventListener('click', handlePdfDownload);
-    elements.generateJpgBtn.addEventListener('click', handleJpgDownload);
-    elements.printPdfBtn.addEventListener('click', handlePrintPdf);
-
-    // 5. Initial Load
-    addWatermark();
-    loadData(); 
-
-});
+            setTimeout(() => { elements.generate
