@@ -315,4 +315,112 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error(error);
             elements.generatePdfBtn.textContent = "Error!";
         } finally {
-            setTimeout(() => { elements.generate
+            setTimeout(() => { elements.generatePdfBtn.innerHTML = originalText; }, 1000);
+        }
+    };
+
+    const handlePrintPdf = async () => {
+        const originalText = elements.printPdfBtn.innerHTML;
+        elements.printPdfBtn.textContent = "Preparing Print...";
+
+        try {
+            const pdf = await createPdfObject();
+            pdf.autoPrint();
+            pdf.output('dataurlnewwindow');
+        } catch (error) {
+            console.error(error);
+            elements.printPdfBtn.textContent = "Error!";
+        } finally {
+            setTimeout(() => { elements.printPdfBtn.innerHTML = originalText; }, 1000);
+        }
+    };
+
+    const handleJpgDownload = () => {
+        updatePreview();
+        saveData();
+        const coverPage = elements.coverPage;
+        
+        coverPage.classList.add('capture-mode'); 
+
+        html2canvas(coverPage, {
+            scale: 3, 
+            useCORS: true, 
+            onclone: (clonedDoc) => {
+                clonedDoc.getElementById('cover-page').classList.add('capture-mode');
+            }
+        }).then(canvas => {
+            coverPage.classList.remove('capture-mode'); 
+
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL('image/jpeg', 0.95);
+            const fileName = `Cover - ${elements.courseCodeInput.value || 'Report'}.jpg`;
+            link.download = fileName;
+            link.click();
+        }).catch(err => {
+            console.error("Error during JPG generation:", err);
+            coverPage.classList.remove('capture-mode');
+        });
+    };
+
+    // --- Initialization & Event Listeners ---
+
+    // 1. Populate Dropdown
+    courseData.forEach(course => {
+        const option = document.createElement('option');
+        option.value = course.id;
+        option.textContent = `${course.code} - ${course.title}`;
+        elements.courseSelect.appendChild(option);
+    });
+
+    // 2. Dropdown Change Event
+    elements.courseSelect.addEventListener('change', (e) => {
+        const selectedId = e.target.value;
+        const selectedCourse = courseData.find(c => c.id === selectedId);
+
+        if (selectedCourse) {
+            elements.courseCodeInput.value = selectedCourse.code;
+            elements.courseTitleInput.value = selectedCourse.title;
+
+            // Fill Teacher 1
+            if (selectedCourse.teacher1) {
+                elements.submittedToName1Input.value = selectedCourse.teacher1.name;
+                elements.submittedToDesignation1Input.value = selectedCourse.teacher1.designation;
+                elements.submittedToDept1Input.value = selectedCourse.teacher1.dept;
+                elements.submittedToCampus1Input.value = selectedCourse.teacher1.campus;
+            }
+
+            // Fill Teacher 2
+            if (selectedCourse.teacher2) {
+                elements.submittedToName2Input.value = selectedCourse.teacher2.name;
+                elements.submittedToDesignation2Input.value = selectedCourse.teacher2.designation;
+                elements.submittedToDept2Input.value = selectedCourse.teacher2.dept;
+                elements.submittedToCampus2Input.value = selectedCourse.teacher2.campus;
+            }
+
+            updatePreview();
+            saveData();
+        }
+    });
+
+    // 3. Input Listeners (Auto-save)
+    const inputs = document.querySelectorAll('.form-body input');
+    inputs.forEach(input => {
+        input.addEventListener('keyup', () => {
+            updatePreview();
+            saveData();
+        });
+        input.addEventListener('change', () => {
+            updatePreview();
+            saveData();
+        });
+    });
+
+    // 4. Button Listeners
+    elements.generatePdfBtn.addEventListener('click', handlePdfDownload);
+    elements.generateJpgBtn.addEventListener('click', handleJpgDownload);
+    elements.printPdfBtn.addEventListener('click', handlePrintPdf);
+
+    // 5. Initial Load
+    addWatermark();
+    loadData(); 
+});
