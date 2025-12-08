@@ -1,0 +1,363 @@
+:root {
+    --primary-color: #004080; 
+    --primary-dark: #002b5a;
+    --background-color: #f0f2f5;
+    --surface-color: #ffffff;
+    --text-color-light: #ffffff;
+    --text-color-dark: #222222;
+    --border-color: #d9d9d9;
+    --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+* { 
+    box-sizing: border-box; 
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    background-color: var(--background-color);
+    color: var(--text-color-dark);
+}
+
+.app-container {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+}
+
+/* --- Left Form Panel --- */
+.form-panel {
+    flex: 0 0 420px;
+    background-color: var(--primary-color);
+    color: var(--text-color-light);
+    padding: 30px 40px;
+    display: flex;
+    flex-direction: column;
+    max-height: 100vh; 
+    overflow-y: auto; 
+}
+
+.form-header { text-align: center; }
+.form-logo { 
+    width: 60px; 
+    height: 60px;
+    margin-bottom: 10px; 
+    border-radius: 50%;
+    background: white;
+    padding: 5px;
+    object-fit: contain;
+}
+.form-header h1 { margin: 0; font-size: 1.8em; }
+.form-header p { opacity: 0.8; margin-bottom: 20px; font-size: 0.9em;}
+
+.form-body { flex-grow: 1; }
+
+/* Styles for Input and Select */
+.form-body input, .form-body select {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    font-size: 14px;
+    color: var(--text-color-light);
+    transition: all 0.2s ease;
+}
+
+.form-body input::placeholder { color: rgba(255, 255, 255, 0.6); }
+
+/* Select specific styles */
+.form-body select {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.2); 
+}
+.form-body select option {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.form-body input:focus, .form-body select:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.2);
+    border-color: var(--text-color-light);
+}
+
+.form-body h3 {
+    font-size: 1em;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* --- Buttons --- */
+.button-group { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 10px; 
+    margin-top: 20px;
+}
+.button-group button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+.button-group button:active { transform: scale(0.98); }
+.btn-primary { background-color: var(--surface-color); color: var(--primary-color); border: none; }
+.btn-primary:hover { background-color: #f0f0f0; }
+.btn-secondary { background-color: transparent; color: var(--text-color-light); border: 2px solid rgba(255, 255, 255, 0.5); }
+.btn-secondary:hover { background-color: rgba(255, 255, 255, 0.1); border-color: var(--text-color-light); }
+
+
+/* --- Right Preview Panel --- */
+.preview-panel {
+    flex-grow: 1;
+    background-color: var(--background-color);
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    overflow-y: auto;
+    height: 100vh;
+}
+
+#cover-page {
+    background: var(--surface-color);
+    width: 21cm; /* A4 Width */
+    height: 29.7cm; /* A4 Height */
+    box-shadow: var(--shadow);
+    font-family: 'Times New Roman', Times, serif;
+    color: #000;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    font-size: 12pt;
+    padding: 1cm 2cm 2cm 2cm; 
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Watermark --- */
+.watermark-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 0;
+    overflow: hidden;
+}
+.watermark {
+    width: 12cm;
+    object-fit: contain;
+    opacity: 0.08;
+    pointer-events: none;
+}
+.header-section, .course-info, .date-row, .report-details, 
+.submitted-to-section, .declaration-box, .submitted-by-section, 
+.teacher-signature {
+    position: relative;
+    z-index: 1;
+}
+
+/* --- Header Section --- */
+.header-section {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.main-logo {
+    width: 70px; 
+    height: 70px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+.header-section h1 {
+    font-size: 16pt;
+    font-weight: bold;
+    margin: 0;
+}
+.header-section h2 {
+    font-size: 14pt;
+    font-weight: bold;
+    margin: 5px 0 0 0;
+}
+
+/* --- Course Info --- */
+.course-info {
+    text-align: center;
+    margin-top: 25px;
+}
+.course-info p {
+    margin: 5px 0;
+    font-size: 12pt;
+    font-weight: bold;
+}
+
+/* --- Date Row --- */
+.date-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+    padding: 0 1cm;
+}
+.date-row p {
+    font-size: 12pt;
+    font-weight: bold;
+}
+
+/* --- Report Details --- */
+.report-details {
+    text-align: center;
+    margin-top: 25px;
+}
+.report-details p {
+    font-size: 12pt;
+    margin: 5px 0;
+}
+.report-details p:first-child {
+    font-weight: bold;
+}
+
+/* --- Submitted To Section --- */
+.submitted-to-section {
+    margin-top: 30px;
+}
+.submitted-to-section h3 {
+    font-size: 12pt;
+    font-weight: bold;
+    text-decoration: underline;
+    margin-bottom: 15px;
+}
+.submitted-to-columns {
+    display: flex;
+    justify-content: space-between;
+}
+.submitted-to-columns .column {
+    width: 48%;
+    font-size: 12pt;
+}
+.submitted-to-columns .column p {
+    margin: 2px 0;
+    min-height: 1.2em;
+}
+.submitted-to-columns .column p.name {
+    font-weight: bold;
+}
+
+/* --- Declaration Box --- */
+.declaration-box {
+    border: 1px solid #000;
+    padding: 15px;
+    margin-top: 30px;
+    text-align: justify;
+}
+.declaration-box p {
+    font-size: 11pt;
+    line-height: 1.4;
+    font-style: italic;
+}
+
+/* --- Signature Lines --- */
+.signature-line {
+    border-top: 1px solid #000;
+    width: 200px;
+    text-align: center;
+    padding-top: 5px;
+}
+.student-signature {
+    margin-top: 25px;
+}
+.teacher-signature {
+    margin-top: auto; 
+    margin-bottom: 10px;
+    align-self: flex-end;
+}
+.signature-text {
+    font-size: 12pt;
+}
+
+
+/* --- Submitted By Section --- */
+.submitted-by-section {
+    margin-top: 30px;
+    width: 60%; 
+}
+.submitted-by-section h3 {
+    font-size: 12pt;
+    font-weight: bold;
+    text-decoration: underline;
+    margin-bottom: 10px;
+}
+.submitted-by-section table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12pt;
+}
+.submitted-by-section td {
+    padding: 4px 0;
+}
+.submitted-by-section td:first-child {
+    font-weight: bold;
+    width: 35%;
+}
+.submitted-by-section td span {
+    min-height: 1.2em;
+    display: inline-block;
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 1024px) {
+    .app-container { flex-direction: column; }
+    .form-panel { 
+        flex: 0 0 auto; 
+        max-height: none; 
+    }
+    .preview-panel { 
+        padding: 20px 10px; 
+        align-items: flex-start; 
+        height: auto;
+    }
+    #cover-page {
+        transform: scale(0.8);
+        transform-origin: top center;
+        margin: 0 auto 40px auto;
+    }
+}
+
+@media (max-width: 768px) {
+    #cover-page {
+        transform: scale(0.65);
+        transform-origin: top center;
+    }
+}
+
+@media (max-width: 480px) {
+    .form-panel { padding: 30px 20px; }
+    #cover-page {
+        transform: scale(0.45);
+        transform-origin: top center;
+    }
+}
+
+/* --- CAPTURE FIX --- */
+#cover-page.capture-mode {
+    transform: none !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+}
