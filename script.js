@@ -156,18 +156,6 @@ document.addEventListener('DOMContentLoaded', () => {
         elements.reportNoOutput.textContent = elements.reportNoInput.value;
         elements.reportNameOutput.textContent = elements.reportNameInput.value;
 
-        // --- ALIGNMENT LOGIC ---
-        // If report name is empty, align left. Otherwise, center it.
-        const reportNameParent = elements.reportNameOutput.parentElement;
-        if (!elements.reportNameInput.value) {
-            reportNameParent.style.textAlign = 'left';
-            reportNameParent.style.paddingLeft = '1cm'; // Indent to look better
-        } else {
-            reportNameParent.style.textAlign = 'center';
-            reportNameParent.style.paddingLeft = '0';
-        }
-        // -----------------------
-
         // Submitted To - Teacher 1
         elements.submittedToName1Output.textContent = elements.submittedToName1Input.value;
         elements.submittedToDesignation1Output.textContent = elements.submittedToDesignation1Input.value;
@@ -192,7 +180,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const loadData = () => {
-        // Load default empty strings (No LocalStorage)
         const data = defaultData;
 
         elements.courseCodeInput.value = data.courseCode || "";
@@ -354,6 +341,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const selectedCourse = courseData.find(c => c.id === selectedId);
 
         if (selectedCourse) {
+            // Fill Course Info
             elements.courseCodeInput.value = selectedCourse.code;
             elements.courseTitleInput.value = selectedCourse.title;
 
