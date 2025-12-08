@@ -229,8 +229,6 @@ body {
 .report-details p {
     font-size: 12pt;
     margin: 5px 0;
-}
-.report-details p:first-child {
     font-weight: bold;
 }
 
@@ -362,3 +360,4 @@ body {
     box-shadow: none !important;
 
 }
+
