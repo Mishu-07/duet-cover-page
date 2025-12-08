@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
         courseTitle: "",
         dateOfAllocation: "",
         dateOfSubmission: "",
-        reportNo: "",
+        reportNo: "                         ",
         reportName: "",
         submittedToName1: "",
         submittedToDesignation1: "",
@@ -418,4 +418,5 @@ document.addEventListener('DOMContentLoaded', () => {
     // 5. Initial Load
     addWatermark();
     loadData(); 
+
 });
