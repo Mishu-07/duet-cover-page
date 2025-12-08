@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
         watermarkContainer: document.querySelector('.watermark-container')
     };
 
-    // --- Course Data (Updated for 2 Teachers) ---
+    // --- Course Data ---
     const courseData = [
         {
             id: "cse4714",
@@ -156,6 +156,18 @@ document.addEventListener('DOMContentLoaded', () => {
         elements.reportNoOutput.textContent = elements.reportNoInput.value;
         elements.reportNameOutput.textContent = elements.reportNameInput.value;
 
+        // --- ALIGNMENT LOGIC ---
+        // If report name is empty, align left. Otherwise, center it.
+        const reportNameParent = elements.reportNameOutput.parentElement;
+        if (!elements.reportNameInput.value) {
+            reportNameParent.style.textAlign = 'left';
+            reportNameParent.style.paddingLeft = '1cm'; // Indent to look better
+        } else {
+            reportNameParent.style.textAlign = 'center';
+            reportNameParent.style.paddingLeft = '0';
+        }
+        // -----------------------
+
         // Submitted To - Teacher 1
         elements.submittedToName1Output.textContent = elements.submittedToName1Input.value;
         elements.submittedToDesignation1Output.textContent = elements.submittedToDesignation1Input.value;
@@ -180,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const loadData = () => {
-        // Use default data only (Removed localStorage)
+        // Load default empty strings (No LocalStorage)
         const data = defaultData;
 
         elements.courseCodeInput.value = data.courseCode || "";
@@ -208,8 +220,6 @@ document.addEventListener('DOMContentLoaded', () => {
         updatePreview();
     };
 
-    // Removed saveData function entirely
-
     const addWatermark = () => {
         const watermarkImg = new Image();
         watermarkImg.src = 'duet_logo_watermark.png'; 
@@ -226,7 +236,6 @@ document.addEventListener('DOMContentLoaded', () => {
      * Common helper to capture the cover page as an image and put it into a PDF.
      */
     const createPdfObject = async () => {
-        // Ensure preview is up to date before capture
         updatePreview();
 
         if (typeof window.jspdf === 'undefined') {
@@ -339,13 +348,12 @@ document.addEventListener('DOMContentLoaded', () => {
         elements.courseSelect.appendChild(option);
     });
 
-    // 2. Dropdown Change Event - Updates BOTH teachers
+    // 2. Dropdown Change Event
     elements.courseSelect.addEventListener('change', (e) => {
         const selectedId = e.target.value;
         const selectedCourse = courseData.find(c => c.id === selectedId);
 
         if (selectedCourse) {
-            // Fill Course Info
             elements.courseCodeInput.value = selectedCourse.code;
             elements.courseTitleInput.value = selectedCourse.title;
 
