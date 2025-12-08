@@ -180,8 +180,8 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const loadData = () => {
-        const savedData = localStorage.getItem('duetCoverPageData');
-        const data = savedData ? JSON.parse(savedData) : defaultData;
+        // Use default data only (Removed localStorage)
+        const data = defaultData;
 
         elements.courseCodeInput.value = data.courseCode || "";
         elements.courseTitleInput.value = data.courseTitle || "";
@@ -208,32 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updatePreview();
     };
 
-    const saveData = () => {
-        const currentData = {
-            courseCode: elements.courseCodeInput.value,
-            courseTitle: elements.courseTitleInput.value,
-            dateOfAllocation: elements.dateOfAllocationInput.value,
-            dateOfSubmission: elements.dateOfSubmissionInput.value,
-            reportNo: elements.reportNoInput.value,
-            reportName: elements.reportNameInput.value,
-            
-            submittedToName1: elements.submittedToName1Input.value,
-            submittedToDesignation1: elements.submittedToDesignation1Input.value,
-            submittedToDept1: elements.submittedToDept1Input.value,
-            submittedToCampus1: elements.submittedToCampus1Input.value,
-            
-            submittedToName2: elements.submittedToName2Input.value,
-            submittedToDesignation2: elements.submittedToDesignation2Input.value,
-            submittedToDept2: elements.submittedToDept2Input.value,
-            submittedToCampus2: elements.submittedToCampus2Input.value,
-            
-            studentName: elements.studentNameInput.value,
-            studentId: elements.studentIdInput.value,
-            yearSemester: elements.yearSemesterInput.value,
-            section: elements.sectionInput.value,
-        };
-        localStorage.setItem('duetCoverPageData', JSON.stringify(currentData));
-    };
+    // Removed saveData function entirely
 
     const addWatermark = () => {
         const watermarkImg = new Image();
@@ -253,7 +228,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const createPdfObject = async () => {
         // Ensure preview is up to date before capture
         updatePreview();
-        saveData();
 
         if (typeof window.jspdf === 'undefined') {
             alert("jsPDF library not loaded!");
@@ -331,7 +305,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const handleJpgDownload = () => {
         updatePreview();
-        saveData();
         const coverPage = elements.coverPage;
         
         coverPage.classList.add('capture-mode'); 
@@ -393,21 +366,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             updatePreview();
-            saveData();
         }
     });
 
-    // 3. Input Listeners (Auto-save on every keypress)
+    // 3. Input Listeners
     const inputs = document.querySelectorAll('.form-body input');
     inputs.forEach(input => {
-        input.addEventListener('keyup', () => {
-            updatePreview();
-            saveData(); // Auto-save
-        });
-        input.addEventListener('change', () => {
-            updatePreview();
-            saveData(); // Auto-save
-        });
+        input.addEventListener('keyup', updatePreview);
+        input.addEventListener('change', updatePreview);
     });
 
     // 4. Button Listeners
