@@ -223,7 +223,7 @@ body {
 
 /* --- Report Details --- */
 .report-details {
-    text-align: center;
+    text-align: left;
     margin-top: 25px;
 }
 .report-details p {
@@ -360,4 +360,5 @@ body {
     transform: none !important;
     margin: 0 !important;
     box-shadow: none !important;
+
 }
