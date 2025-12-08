@@ -53,29 +53,12 @@ document.addEventListener('DOMContentLoaded', () => {
         watermarkContainer: document.querySelector('.watermark-container')
     };
 
-    // --- Course Data (2 Teachers Support) ---
+    // --- Course Data (Updated for 2 Teachers) ---
     const courseData = [
         {
-            id: "cse3222",
-            code: "CSE 3222",
-            title: "Operating System Sessional",
-            teacher1: {
-                name: "Dr. Md. Nasim Akter",
-                designation: "Professor",
-                dept: "Dept. of CSE",
-                campus: "DUET, Gazipur"
-            },
-            teacher2: {
-                name: "Dr. Momotaz Begum",
-                designation: "Professor",
-                dept: "Dept. of CSE",
-                campus: "DUET, Gazipur"
-            }
-        },
-        {
-            id: "cse3214",
-            code: "CSE 3214",
-            title: "Computer Networks Sessional",
+            id: "cse4714",
+            code: "CSE 4714",
+            title: "Simulation and Modeling Sessional",
             teacher1: {
                 name: "Dr. Momotaz Begum",
                 designation: "Professor",
@@ -83,26 +66,43 @@ document.addEventListener('DOMContentLoaded', () => {
                 campus: "DUET, Gazipur"
             },
             teacher2: {
-                name: "Dr. Md. Obaidur Rahman",
+                name: "Md. Abu Bakkar Siddique",
+                designation: "Assistant Professor",
+                dept: "Dept. of CSE",
+                campus: "DUET, Gazipur"
+            }
+        },
+        {
+            id: "cse4612",
+            code: "CSE 4612",
+            title: "Machine Learning Sessional",
+            teacher1: {
+                name: "Dr. Fazlul Hasan Siddiqui",
+                designation: "Professor",
+                dept: "Dept. of CSE",
+                campus: "DUET, Gazipur"
+            },
+            teacher2: {
+                name: "Dr. Amran Hossain",
                 designation: "Professor",
                 dept: "Dept. of CSE",
                 campus: "DUET, Gazipur"
             }
         },
         {
-            id: "hum3216",
-            code: "HUM 3216",
-            title: "Industrial Management and Law",
+            id: "cse4212",
+            code: "CSE 4212",
+            title: "Compiler Design Sessional",
             teacher1: {
-                name: "Mr. Abul Kalam",
-                designation: "Associate Professor",
-                dept: "Dept. of Humanities",
+                name: "Dr. Shafiqul Islam",
+                designation: "Professor",
+                dept: "Dept. of CSE",
                 campus: "DUET, Gazipur"
             },
             teacher2: {
-                name: "Ms. Fatema Tuj Zohra",
-                designation: "Lecturer",
-                dept: "Dept. of Humanities",
+                name: "Md. Rajibul Islam",
+                designation: "Assistant Professor",
+                dept: "Dept. of CSE",
                 campus: "DUET, Gazipur"
             }
         }
@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
         courseTitle: "",
         dateOfAllocation: "",
         dateOfSubmission: "",
-        reportNo: "                         ",
+        reportNo: "",
         reportName: "",
         submittedToName1: "",
         submittedToDesignation1: "",
@@ -155,19 +155,6 @@ document.addEventListener('DOMContentLoaded', () => {
         elements.courseTitleOutput.textContent = elements.courseTitleInput.value;
         elements.reportNoOutput.textContent = elements.reportNoInput.value;
         elements.reportNameOutput.textContent = elements.reportNameInput.value;
-
-        // --- NEW: Handle Alignment for Report Name ---
-        const reportNameParent = elements.reportNameOutput.parentElement;
-        if (!elements.reportNameInput.value) {
-            // If empty, move to left to leave space for writing
-            reportNameParent.style.textAlign = 'left';
-            reportNameParent.style.paddingLeft = '1cm'; // Optional indent
-        } else {
-            // If text exists, center it
-            reportNameParent.style.textAlign = 'center';
-            reportNameParent.style.paddingLeft = '0';
-        }
-        // ---------------------------------------------
 
         // Submitted To - Teacher 1
         elements.submittedToName1Output.textContent = elements.submittedToName1Input.value;
@@ -260,7 +247,11 @@ document.addEventListener('DOMContentLoaded', () => {
         elements.watermarkContainer.appendChild(watermarkImg);
     };
 
+    /**
+     * Common helper to capture the cover page as an image and put it into a PDF.
+     */
     const createPdfObject = async () => {
+        // Ensure preview is up to date before capture
         updatePreview();
         saveData();
 
@@ -270,6 +261,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const coverPage = elements.coverPage;
+        
+        // Add class to fix dimensions for capture
         coverPage.classList.add('capture-mode');
 
         try {
@@ -282,6 +275,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             coverPage.classList.remove('capture-mode');
+
             const imgData = canvas.toDataURL('image/jpeg', 0.98); 
 
             const { jsPDF } = window.jspdf;
@@ -372,12 +366,13 @@ document.addEventListener('DOMContentLoaded', () => {
         elements.courseSelect.appendChild(option);
     });
 
-    // 2. Dropdown Change Event
+    // 2. Dropdown Change Event - Updates BOTH teachers
     elements.courseSelect.addEventListener('change', (e) => {
         const selectedId = e.target.value;
         const selectedCourse = courseData.find(c => c.id === selectedId);
 
         if (selectedCourse) {
+            // Fill Course Info
             elements.courseCodeInput.value = selectedCourse.code;
             elements.courseTitleInput.value = selectedCourse.title;
 
@@ -402,16 +397,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 3. Input Listeners (Auto-save)
+    // 3. Input Listeners (Auto-save on every keypress)
     const inputs = document.querySelectorAll('.form-body input');
     inputs.forEach(input => {
         input.addEventListener('keyup', () => {
             updatePreview();
-            saveData();
+            saveData(); // Auto-save
         });
         input.addEventListener('change', () => {
             updatePreview();
-            saveData();
+            saveData(); // Auto-save
         });
     });
 
