@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
             code: "CSE 4212",
             title: "Compiler Design Sessional",
             teacher1: {
-                name: "Dr. Shafiqul Islam",
+                name: "Dr. Md. Shafiqul Islam",
                 designation: "Professor",
                 dept: "Dept. of CSE",
                 campus: "DUET, Gazipur"
@@ -381,3 +381,4 @@ document.addEventListener('DOMContentLoaded', () => {
     addWatermark();
     loadData(); 
 });
+
