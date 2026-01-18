@@ -219,6 +219,14 @@ body {
 .date-row p {
     font-size: 12pt;
     font-weight: bold;
+    width: 45%; /* Gives each date item a fixed "slot" */
+    display: flex;
+    white-space: nowrap; /* Prevents text from wrapping */
+}
+
+.date-row p:last-child {
+    justify-content: flex-start; /* Labels will line up in two neat columns */
+    margin-left: 2cm; /* Optional: nudge the second column exactly where you want it */
 }
 
 /* --- Report Details --- */
@@ -237,7 +245,7 @@ body {
     margin-top: 30px;
 }
 .submitted-to-section h3 {
-    font-size: 12pt;
+    font-size: 14pt;
     font-weight: bold;
     text-decoration: underline;
     margin-bottom: 15px;
@@ -248,7 +256,7 @@ body {
 }
 .submitted-to-columns .column {
     width: 48%;
-    font-size: 12pt;
+    font-size: 14pt;
 }
 .submitted-to-columns .column p {
     margin: 2px 0;
@@ -305,7 +313,7 @@ body {
 .submitted-by-section table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 12pt;
+    font-size: 14pt;
 }
 .submitted-by-section td {
     padding: 4px 0;
@@ -360,4 +368,5 @@ body {
     box-shadow: none !important;
 
 }
+
 
