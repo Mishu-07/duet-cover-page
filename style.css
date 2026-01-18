@@ -320,7 +320,7 @@ body {
 }
 .submitted-by-section td:first-child {
     font-weight: bold;
-    width: 35%;
+    width: 45%;
 }
 .submitted-by-section td span {
     min-height: 1.2em;
@@ -368,5 +368,6 @@ body {
     box-shadow: none !important;
 
 }
+
 
 
