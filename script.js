@@ -1,14 +1,15 @@
 import { db } from "./firebase.js";
-
 import {
     collection,
     getDocs,
+    getDoc,
     addDoc,
+    setDoc,
     updateDoc,
     deleteDoc,
+    increment,
     doc
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
-
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -24,7 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
         dateOfSubmissionInput: document.getElementById('date-of-submission'),
         yearSemesterInput: document.getElementById('year-semester'),
         sectionInput: document.getElementById('section'),
-
         reportNoInput: document.getElementById('report-no'),
         reportNameInput: document.getElementById('report-name'),
         
@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
             courseData = [];
             snapshot.forEach(docSnap => {
                 courseData.push({
-                    id: docSnap.id, // Use Firestore Document ID globally
+                    id: docSnap.id,
                     ...docSnap.data()
                 });
             });
@@ -161,6 +161,24 @@ document.addEventListener('DOMContentLoaded', () => {
             renderCourseList();
         } catch (error) {
             console.error("Error loading courses from Firebase:", error);
+        }
+    };
+
+    const increaseDownloadCount = async () => {
+        const ref = doc(db, "stats", "downloads");
+        const snap = await getDoc(ref);
+        if (!snap.exists()) {
+            await setDoc(ref, { count: 1 });
+        } else {
+            await updateDoc(ref, { count: increment(1) });
+        }
+    };
+
+    const loadDownloadCount = async () => {
+        const ref = doc(db, "stats", "downloads");
+        const snap = await getDoc(ref);
+        if (snap.exists()) {
+            document.getElementById("downloadCount").textContent = snap.data().count.toLocaleString();
         }
     };
 
@@ -187,7 +205,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // --- Utility Functions ---
-
     const formatDate = (dateString) => {
         if (!dateString) return "";
         try {
@@ -218,13 +235,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // --- Report Only Fields ---
         elements.reportNoOutput.textContent = elements.reportNoInput.value;
         elements.reportNameOutput.textContent = elements.reportNameInput.value;
-        
         elements.studentNameOutput.textContent = elements.studentNameInput.value;
         elements.studentIdOutput.textContent = elements.studentIdInput.value;
 
-
         // --- Shared Submitted To Mapping ---
-        // For Report Preview
         elements.submittedToName1Output.textContent = elements.submittedToName1Input.value;
         elements.submittedToDesignation1Output.textContent = elements.submittedToDesignation1Input.value;
         elements.submittedToDept1Output.textContent = elements.submittedToDept1Input.value;
@@ -246,12 +260,10 @@ document.addEventListener('DOMContentLoaded', () => {
         elements.groupSubmittedToDept2Output.textContent = elements.submittedToDept2Input.value;
         elements.groupSubmittedToCampus2Output.textContent = elements.submittedToCampus2Input.value;
 
-
         // --- Project Mode specific Fields ---
         elements.docTitleOutput.textContent = elements.docTitleInput.value;
         elements.projectTitleOutput.textContent = elements.projectTitleInput.value;
 
-        // Shared Course Info mapped to Project Mode spans
         elements.groupCourseCodeOutput.textContent = elements.courseCodeInput.value;
         elements.groupCourseTitleOutput.textContent = elements.courseTitleInput.value;
         elements.groupDateOfAllocationOutput.textContent = formatDate(elements.dateOfAllocationInput.value);
@@ -260,7 +272,6 @@ document.addEventListener('DOMContentLoaded', () => {
         elements.groupSectionOutput.textContent = elements.sectionInput.value;
 
         elements.groupNoOutput.textContent = elements.groupNoInput.value;
-
         elements.groupMember1NameOutput.textContent = elements.groupMember1NameInput.value;
         elements.groupMember1IdOutput.textContent = elements.groupMember1IdInput.value;
 
@@ -324,7 +335,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const coverPage = elements.coverPage;
-        
         coverPage.classList.add('capture-mode');
 
         try {
@@ -337,7 +347,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             coverPage.classList.remove('capture-mode');
-
             const imgData = canvas.toDataURL('image/jpeg', 0.98); 
 
             const { jsPDF } = window.jspdf;
@@ -347,7 +356,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const pdfHeight = 297;
             
             pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
-            
             return pdf;
 
         } catch (error) {
@@ -358,12 +366,13 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // --- Button Handlers ---
-
     const handlePdfDownload = async () => {
         const originalText = elements.generatePdfBtn.innerHTML;
         elements.generatePdfBtn.textContent = "Generating PDF...";
         
         try {
+            await increaseDownloadCount();
+            await loadDownloadCount();
             const pdf = await createPdfObject();
             const fileName = `Cover - ${elements.courseCodeInput.value || 'Report'}.pdf`;
             pdf.save(fileName);
@@ -380,6 +389,8 @@ document.addEventListener('DOMContentLoaded', () => {
         elements.printPdfBtn.textContent = "Preparing Print...";
 
         try {
+            await increaseDownloadCount();
+            await loadDownloadCount();
             const pdf = await createPdfObject();
             pdf.autoPrint();
             pdf.output('dataurlnewwindow');
@@ -391,38 +402,40 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    const handleJpgDownload = () => {
+    const handleJpgDownload = async () => {
         updatePreview();
         const coverPage = elements.coverPage;
-        
         coverPage.classList.add('capture-mode'); 
 
-        html2canvas(coverPage, {
-            scale: 3, 
-            useCORS: true, 
-            onclone: (clonedDoc) => {
-                clonedDoc.getElementById('cover-page').classList.add('capture-mode');
-            }
-        }).then(canvas => {
+        try {
+            await increaseDownloadCount();
+            await loadDownloadCount();
+            
+            const canvas = await html2canvas(coverPage, {
+                scale: 3, 
+                useCORS: true, 
+                onclone: (clonedDoc) => {
+                    clonedDoc.getElementById('cover-page').classList.add('capture-mode');
+                }
+            });
+            
             coverPage.classList.remove('capture-mode'); 
-
             const link = document.createElement('a');
             link.href = canvas.toDataURL('image/jpeg', 0.95);
             const fileName = `Cover - ${elements.courseCodeInput.value || 'Report'}.jpg`;
             link.download = fileName;
             link.click();
-        }).catch(err => {
+        } catch (err) {
             console.error("Error during JPG generation:", err);
             coverPage.classList.remove('capture-mode');
-        });
+        }
     };
 
     // --- Initialization & Event Listeners ---
-
     const populateCourseDropdown = () => {
         const previouslySelected = elements.courseSelect.value;
-
         elements.courseSelect.innerHTML = '<option value="">-- Select a Course (Auto-fill) --</option>';
+        
         courseData.forEach(course => {
             const option = document.createElement('option');
             option.value = course.id;
@@ -456,7 +469,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 elements.submittedToDept2Input.value = selectedCourse.teacher2.dept;
                 elements.submittedToCampus2Input.value = selectedCourse.teacher2.campus;
             }
-
             updatePreview();
         }
     });
@@ -473,9 +485,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const setMode = (mode) => {
         const isReport = mode === "report";
-
         elements.coverPage.dataset.mode = mode;
-
         elements.fieldsReport.classList.toggle("hidden", !isReport);
         elements.fieldsGroup.classList.toggle("hidden", isReport);
 
@@ -485,7 +495,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         elements.declarationToggle.checked = isReport;
         elements.declarationBox.classList.toggle("hidden", !isReport);
-
         updatePreview();
     };
 
@@ -494,10 +503,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     elements.declarationToggle.addEventListener("change", () => {
-        elements.declarationBox.classList.toggle(
-            "hidden",
-            !elements.declarationToggle.checked
-        );
+        elements.declarationBox.classList.toggle("hidden", !elements.declarationToggle.checked);
     });
 
     elements.toggleMember3Btn.addEventListener('click', () => {
@@ -512,12 +518,10 @@ document.addEventListener('DOMContentLoaded', () => {
             elements.groupMember3Fields.classList.remove('hidden');
             elements.toggleMember3Btn.innerHTML = '<i class="fa-solid fa-user-minus"></i> Remove 3rd Member';
         }
-
         updatePreview();
     });
 
     // --- Manage Courses Modal Logic ---
-
     const renderCourseList = () => {
         elements.courseListContainer.innerHTML = '';
 
@@ -529,7 +533,6 @@ document.addEventListener('DOMContentLoaded', () => {
         courseData.forEach(course => {
             const item = document.createElement('div');
             item.className = 'course-list-item';
-
             const teacherNames = [course.teacher1 && course.teacher1.name, course.teacher2 && course.teacher2.name]
                 .filter(Boolean)
                 .join(' & ');
@@ -594,7 +597,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     elements.cancelEditBtn.addEventListener('click', resetCourseForm);
 
-    // Dynamic Firebase Implementation for Adding & Updating Documents
     elements.courseForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
@@ -623,11 +625,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             if (existingId) {
-                // Update structure in Firebase Document
                 const docRef = doc(db, "courses", existingId);
                 await updateDoc(docRef, coursePayload);
             } else {
-                // Construct a new Firebase Document inside the collection
                 await addDoc(collection(db, "courses"), coursePayload);
             }
             
@@ -639,7 +639,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Dynamic Firebase Implementation for Deleting Documents
     elements.courseListContainer.addEventListener('click', async (e) => {
         const editBtn = e.target.closest('.edit-course-btn');
         const deleteBtn = e.target.closest('.delete-course-btn');
@@ -666,6 +665,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Initial Load Phase ---
     addWatermark();
+    loadDownloadCount();   
     loadData();
     loadCourses(); 
     setMode('report');
