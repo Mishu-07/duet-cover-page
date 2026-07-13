@@ -73,9 +73,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         },
         {
-            id: "cse4612",
-            code: "CSE 4612",
-            title: "Machine Learning Sessional",
+            id: "cse4622",
+            code: "CSE 4622",
+            title: "Neural Networks and Pattern Recognition Sessional",
             teacher1: {
                 name: "Dr. Fazlul Hasan Siddiqui",
                 designation: "Professor",
