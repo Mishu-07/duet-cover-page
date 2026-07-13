@@ -21,123 +21,286 @@
                 <p>Fill in the fields to create your DUET report cover page.</p>
             </div>
             <div class="form-body">
-                <select id="course-select">
-                    <option value="">-- Select a Course (Auto-fill) --</option>
+                <div class="mode-selector">
+                    <label class="mode-option">
+                        <input type="radio" name="cover-mode" id="mode-report" value="report" checked>
+                        <span>Report</span>
+                    </label>
+                    <label class="mode-option">
+                        <input type="radio" name="cover-mode" id="mode-project" value="project">
+                        <span>Project Report</span>
+                    </label>
+                </div>
+
+                <label class="toggle-row">
+                    <input type="checkbox" id="declaration-toggle" checked>
+                    <span>Include declaration statement</span>
+                </label>
+
+                <div class="course-select-row">
+                    <select id="course-select">
+                        <option value="">-- Select a Course (Auto-fill) --</option>
                     </select>
+                    <button type="button" id="manage-courses-btn" title="Manage Courses">
+                        <i class="fa-solid fa-gear"></i>
+                    </button>
+                </div>
 
                 <input type="text" id="course-code" placeholder="Course Code (e.g., CSE 3222)">
                 <input type="text" id="course-title" placeholder="Course Title (e.g., Operating System Sessional)">
                 <input type="date" id="date-of-allocation" placeholder="Date of Allocation">
                 <input type="date" id="date-of-submission" placeholder="Date of Submission">
-                <input type="text" id="report-no" placeholder="Report No.">
-                <input type="text" id="report-name" placeholder="Report Name">
-                
-                <h3>Submitted To:</h3>
-                <input type="text" id="submitted-to-name-1" placeholder="Submitted To Name 1 (e.g., Dr. Md. Nasim Akter)">
-                <input type="text" id="submitted-to-designation-1" placeholder="Designation 1 (e.g., Professor)">
-                <input type="text" id="submitted-to-dept-1" placeholder="Department 1 (e.g., Dept. of CSE)">
-                <input type="text" id="submitted-to-campus-1" placeholder="Campus 1 (e.g., DUET, Gazipur)">
-                
-                <input type="text" id="submitted-to-name-2" placeholder="Submitted To Name 2 (Optional)">
-                <input type="text" id="submitted-to-designation-2" placeholder="Designation 2 (Optional)">
-                <input type="text" id="submitted-to-dept-2" placeholder="Department 2 (Optional)">
-                <input type="text" id="submitted-to-campus-2" placeholder="Campus 2 (Optional)">
-
-                <h3>Submitted By:</h3>
-                <input type="text" id="student-name" placeholder="Student Name (e.g., Abu Saeed Misho)">
-                <input type="text" id="student-id" placeholder="Student ID (e.g., 214065)">
-                <input type="text" id="year-semester" placeholder="Year & Semester (e.g., 3rd Year and 2nd Semester)">
+                <input type="text" id="year-semester" placeholder="Year & Semester (e.g., 4th Year 2nd Semester)">
                 <input type="text" id="section" placeholder="Section (e.g., B)">
+
+                <div class="mode-fields" id="fields-report">
+                    <input type="text" id="report-no" placeholder="Report No.">
+                    <input type="text" id="report-name" placeholder="Report Name">
+
+                    <h3>Submitted By:</h3>
+                    <input type="text" id="student-name" placeholder="Student Name">
+                    <input type="text" id="student-id" placeholder="Student ID">
+                </div>
+
+                <div class="mode-fields hidden" id="fields-group">
+                    <input type="text" id="doc-title" placeholder="Document Title">
+                    <textarea id="project-title" rows="2" placeholder="Project / Thesis Title"></textarea>
+
+                    <h3>Group:</h3>
+                    <input type="text" id="group-no" placeholder="Group No.">
+
+                    <h3>Submitted By (Group Members):</h3>
+                    <div class="group-member-fields">
+                        <input type="text" id="group-member-1-name" placeholder="Member 1 Name">
+                        <input type="text" id="group-member-1-id" placeholder="Member 1 Student ID">
+                    </div>
+                    <div class="group-member-fields">
+                        <input type="text" id="group-member-2-name" placeholder="Member 2 Name">
+                        <input type="text" id="group-member-2-id" placeholder="Member 2 Student ID">
+                    </div>
+                    <div class="group-member-fields hidden" id="group-member-3-fields">
+                        <input type="text" id="group-member-3-name" placeholder="Member 3 Name">
+                        <input type="text" id="group-member-3-id" placeholder="Member 3 Student ID">
+                    </div>
+                    <button type="button" id="toggle-member-3-btn" class="btn-secondary-light">
+                        <i class="fa-solid fa-user-plus"></i> Add 3rd Member
+                    </button>
+                </div>
+
+                <details class="expandable-section">
+                    <summary><h3>Submitted To (Click to Expand)</h3></summary>
+                    <div class="expandable-content">
+                        <input type="text" id="submitted-to-name-1" placeholder="Submitted To Name 1">
+                        <input type="text" id="submitted-to-designation-1" placeholder="Designation 1">
+                        <input type="text" id="submitted-to-dept-1" placeholder="Department 1">
+                        <input type="text" id="submitted-to-campus-1" placeholder="Campus 1">
+
+                        <input type="text" id="submitted-to-name-2" placeholder="Submitted To Name 2 (Optional)">
+                        <input type="text" id="submitted-to-designation-2" placeholder="Designation 2 (Optional)">
+                        <input type="text" id="submitted-to-dept-2" placeholder="Department 2 (Optional)">
+                        <input type="text" id="submitted-to-campus-2" placeholder="Campus 2 (Optional)">
+                    </div>
+                </details>
             </div>
             <div class="button-group">
                 <button id="generate-pdf" class="btn-primary"><i class="fa-solid fa-file-pdf"></i> Download as PDF</button>
                 <button id="generate-jpg" class="btn-secondary"><i class="fa-solid fa-file-image"></i> Download as JPG</button>
                 <button id="print-pdf" class="btn-secondary"><i class="fa-solid fa-print"></i> Print PDF</button>
             </div>
+            <div class="app-footer">
+                 Crafted with ❤️ by <strong>Mishu</strong>
+            </div>
         </div>
 
         <div class="preview-panel">
-            <div id="cover-page">
-                <div class="watermark-container">
-                    </div>
+            <div id="cover-page" data-mode="report">
+                <div class="watermark-container"></div>
                 <div class="header-section">
                     <img src="duet_logo.png" alt="DUET Logo" class="main-logo">
                     <h1>Dhaka University of Engineering & Technology, Gazipur</h1>
                     <h2>Department of Computer Science and Engineering</h2>
                 </div>
 
-                <div class="course-info">
-                    <p class="course-code-title">Course Code: <span id="output-course-code"></span></p>
-                    <p class="course-title-text">Course Title: <span id="output-course-title"></span></p>
-                </div>
-                
-                <div class="date-row">
-                    <p>Date of Allocation: <span id="output-date-of-allocation"></span></p>
-                    <p>Date of Submission: <span id="output-date-of-submission"></span></p>
-                </div>
+                <div class="preview-group-mode">
+                    <div class="course-info-group">
+                        <p class="course-code-title"><strong>Course Code: </strong><span id="output-group-course-code"></span></p>
+                        <p class="course-title-text"><strong>Course Title: </strong><span id="output-group-course-title"></span></p>
+                    </div>
 
-                <div class="report-details">
-                    <p>Report No: <span id="output-report-no"></span></p>
-                    <p>Report Name: <span id="output-report-name"></span></p>
-                </div>
+                    <h1 class="doc-title"><span id="output-doc-title"></span></h1>
+                    
+                    <div class="date-row-group">
+                        <p><strong>Date of Allocation: </strong><span id="output-group-date-of-allocation"></span></p>
+                        <p><strong>Date of Submission: </strong><span id="output-group-date-of-submission"></span></p>
+                    </div>
 
-                <div class="submitted-to-section">
-                    <h3>Submitted To</h3>
-                    <div class="submitted-to-columns">
-                        <div class="column">
-                            <p class="name"><span id="output-submitted-to-name-1"></span></p>
-                            <p><span id="output-submitted-to-designation-1"></span></p>
-                            <p><span id="output-submitted-to-dept-1"></span></p>
-                            <p><span id="output-submitted-to-campus-1"></span></p>
+                    <div class="project-details" style="margin-bottom: 60px;">
+                        <p><strong>Project Title: </strong><span id="output-project-title"></span></p>
+                    </div>
+
+                    <div class="submitted-by-group-section">
+                        <h3>Submitted By</h3>
+                        <div class="group-box-wrapper">
+                            <div class="group-box">Group: <span id="output-group-no" class="handwritten-space"></span></div>
                         </div>
-                        <div class="column">
-                            <p class="name"><span id="output-submitted-to-name-2"></span></p>
-                            <p><span id="output-submitted-to-designation-2"></span></p>
-                            <p><span id="output-submitted-to-dept-2"></span></p>
-                            <p><span id="output-submitted-to-campus-2"></span></p>
+
+                        <table class="group-members-table">
+                            <thead>
+                                <tr><th>Name</th><th>Student ID</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr id="output-group-member-1-row">
+                                    <td><span id="output-group-member-1-name"></span></td>
+                                    <td><span id="output-group-member-1-id-label"></span></td>
+                                </tr>
+                                <tr id="output-group-member-2-row">
+                                    <td><span id="output-group-member-2-name"></span></td>
+                                    <td><span id="output-group-member-2-id-label"></span></td>
+                                </tr>
+                                <tr id="output-group-member-3-row" class="hidden">
+                                    <td><span id="output-group-member-3-name"></span></td>
+                                    <td><span id="output-group-member-3-id-label"></span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <table class="group-meta-table">
+                            <tr><td style="width: 170px;">Year & Semester</td><td style="width: 20px; text-align: center;">:</td><td><span id="output-group-year-semester"></span></td></tr>
+                            <tr><td>Section</td><td style="text-align: center;">:</td><td><span id="output-group-section"></span></td></tr>
+                        </table>
+                    </div>
+
+                    <div class="submitted-to-section">
+                        <h3>Submitted To</h3>
+                        <div class="submitted-to-columns">
+                            <div class="column">
+                                <p class="name"><span id="output-group-submitted-to-name-1"></span></p>
+                                <p><span id="output-group-submitted-to-designation-1"></span></p>
+                                <p><span id="output-group-submitted-to-dept-1"></span></p>
+                                <p><span id="output-group-submitted-to-campus-1"></span></p>
+                            </div>
+                            <div class="column">
+                                <p class="name"><span id="output-group-submitted-to-name-2"></span></p>
+                                <p><span id="output-group-submitted-to-designation-2"></span></p>
+                                <p><span id="output-group-submitted-to-dept-2"></span></p>
+                                <p><span id="output-group-submitted-to-campus-2"></span></p>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="declaration-box">
+                <div class="preview-report-mode">
+                    <div class="course-info">
+                        <p class="course-code-title"><strong>Course Code: </strong><span id="output-course-code"></span></p>
+                        <p class="course-title-text"><strong>Course Title: </strong><span id="output-course-title"></span></p>
+                    </div>
+                    
+                    <div class="date-row">
+                        <p><strong>Date of Allocation: </strong><span id="output-date-of-allocation"></span></p>
+                        <p><strong>Date of Submission: </strong><span id="output-date-of-submission"></span></p>
+                    </div>
+
+                    <div class="report-details">
+                        <p><strong>Report No: </strong><span id="output-report-no"></span></p>
+                        <p><strong>Report Name: </strong><span id="output-report-name"></span></p>
+                    </div>
+                </div>
+
+                <div class="preview-report-mode">
+                    <div class="submitted-by-section">
+                        <h3>Submitted By</h3>
+                        <table>
+                            <tr>
+                                <td style="width: 170px;">Name</td>
+                                <td style="width: 20px; text-align: center;">:</td>
+                                <td><span id="output-student-name"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Student ID</td>
+                                <td style="text-align: center;">:</td>
+                                <td><span id="output-student-id"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Year & Semester</td>
+                                <td style="text-align: center;">:</td>
+                                <td><span id="output-year-semester"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Section</td>
+                                <td style="text-align: center;">:</td>
+                                <td><span id="output-section"></span></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="declaration-box hidden">
                     <p>In signing this statement, I hereby certify that the work on this experiment is my own and I have not copied the work of any other student (present/past) while completing this experiment. I understand that if I fail to honor this agreement, I will receive a score of **ZERO** for this experiment and be subject to possible disciplinary action.</p>
                     <div class="signature-line student-signature">
                         <span class="signature-text">Signature of the Student</span>
                     </div>
                 </div>
-
-                <div class="submitted-by-section">
-                    <h3>Submitted By</h3>
-                    <table>
-                        <tr>
-                            <td>Name</td>
-                            <td><span id="output-student-name"></span></td>
-                        </tr>
-                        <tr>
-                            <td>Student ID</td>
-                            <td><span id="output-student-id"></span></td>
-                        </tr>
-                        <tr>
-                            <td>Year & Semester</td>
-                            <td><span id="output-year-semester"></span></td>
-                        </tr>
-                        <tr>
-                            <td>Section</td>
-                            <td><span id="output-section"></span></td>
-                        </tr>
-                    </table>
+                    <div class="submitted-to-section">
+                        <h3>Submitted To</h3>
+                        <div class="submitted-to-columns">
+                            <div class="column">
+                                <p class="name"><span id="output-submitted-to-name-1"></span></p>
+                                <p><span id="output-submitted-to-designation-1"></span></p>
+                                <p><span id="output-submitted-to-dept-1"></span></p>
+                                <p><span id="output-submitted-to-campus-1"></span></p>
+                            </div>
+                            <div class="column">
+                                <p class="name"><span id="output-submitted-to-name-2"></span></p>
+                                <p><span id="output-submitted-to-designation-2"></span></p>
+                                <p><span id="output-submitted-to-dept-2"></span></p>
+                                <p><span id="output-submitted-to-campus-2"></span></p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="signature-line teacher-signature">
-                    <span class="signature-text">Signature of Teacher</span>
+                    <span class="signature-text" id="output-signature-label">Signature of Teacher</span>
                 </div>
             </div>
         </div>
-
     </main>
+
+    <div id="course-modal-overlay" class="modal-overlay hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Manage Courses</h2>
+                <button type="button" id="close-modal-btn" class="modal-close" title="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="course-list"></div>
+                <hr class="modal-divider">
+                <h3 id="course-form-title">Add New Course</h3>
+                <form id="course-form">
+                    <input type="hidden" id="edit-course-id">
+                    <input type="text" id="modal-course-code" placeholder="Course Code" required>
+                    <input type="text" id="modal-course-title" placeholder="Course Title" required>
+                    <h4>Teacher 1</h4>
+                    <input type="text" id="modal-t1-name" placeholder="Name">
+                    <input type="text" id="modal-t1-designation" placeholder="Designation">
+                    <input type="text" id="modal-t1-dept" placeholder="Department">
+                    <input type="text" id="modal-t1-campus" placeholder="Campus">
+                    <h4>Teacher 2 <span class="optional-tag">(Optional)</span></h4>
+                    <input type="text" id="modal-t2-name" placeholder="Name">
+                    <input type="text" id="modal-t2-designation" placeholder="Designation">
+                    <input type="text" id="modal-t2-dept" placeholder="Department">
+                    <input type="text" id="modal-t2-campus" placeholder="Campus">
+                    <div class="modal-form-actions">
+                        <button type="submit" id="save-course-btn" class="btn-primary"><i class="fa-solid fa-floppy-disk"></i> Save Course</button>
+                        <button type="button" id="cancel-edit-btn" class="btn-secondary-light hidden">Cancel Edit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="script.js"></script>
+    <script type="module" src="firebase.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>
