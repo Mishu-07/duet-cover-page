@@ -922,3 +922,34 @@ details[open].expandable-section summary h3::after {
     color: #FFD166;
     font-weight: 700;
 }
+
+.download-counter {
+    margin-top: 12px;
+    padding: 12px;
+    border-radius: 10px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    font-size: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.counter-icon {
+    font-size: 18px;
+    display: block;
+    margin-bottom: 4px;
+}
+
+#downloadCount {
+    display: block;
+    font-size: 26px;
+    font-weight: 700;
+    color: #FFD166;
+    line-height: 1.2;
+}
+
+.counter-text {
+    display: block;
+    margin-top: 4px;
+    color: rgba(255, 255, 255, 0.85);
+}
