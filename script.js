@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
         submittedToCampus2: "",
         studentName: "",
         studentId: "",
-        yearSemester: "4th Year and 1st Semester",
+        yearSemester: "4th Year and 2nd Semester",
         section: "B"
     };
 
