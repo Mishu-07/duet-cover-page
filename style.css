@@ -572,6 +572,7 @@ details[open].expandable-section summary h3::after {
     text-align: left;
     padding: 15px 1cm 0 1cm;
     font-size: 13pt;
+    white-space: pre-line;
 }
 
 .submitted-by-group-section {
