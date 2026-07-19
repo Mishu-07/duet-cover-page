@@ -958,35 +958,41 @@ details[open].expandable-section summary h3::after {
 /* Add this at the bottom of style.css */
 @media (max-width: 768px) {
     .app-container {
-        flex-direction: column; /* Stacks form and preview panels vertically */
+        flex-direction: column; /* Stacks the input form and preview canvas vertically[span_2](start_span)[span_2](end_span) */
     }
 
     .form-panel {
-        flex: none;
+        flex: none; /* Allows the form panel to unfold fully[span_3](start_span)[span_3](end_span) */
         width: 100%;
         max-height: none;
     }
 
     .preview-panel {
-        padding: 10px;
+        padding: 20px 10px;
         width: 100%;
-        overflow-x: auto;
+        min-height: 480px;
+        display: flex;
         justify-content: center;
-        align-items: center;
-        min-height: 500px;
+        align-items: flex-start;
+        overflow: hidden; /* Stops horizontal scrolling issues */
     }
 
-    /* Dynamically downscales the strict 21cm width to fit small viewpoints */
-    #cover-page {
-        transform: scale(0.45); /* Adjust this scale number if it's too small/large */
+    /* The scale wrapper handles the viewport reduction smoothly */
+    .preview-scale-wrapper {
+        transform: scale(0.42); 
         transform-origin: top center;
-        margin-bottom: -16cm; /* Offsets empty space caused by scaling an A4 element */
+        width: 21cm; /* Keeps the canvas dimensions native while scaled[span_4](start_span)[span_4](end_span) */
+        height: 29.7cm; /* Keeps the canvas dimensions native while scaled[span_5](start_span)[span_5](end_span) */
+        margin-bottom: -17cm; /* Clips out the excess invisible bounding box area */
     }
 }
 
 @media (max-width: 480px) {
-    #cover-page {
-        transform: scale(0.35); /* Shrinks it a bit more for narrower mobile devices */
-        margin-bottom: -19cm;
+    .preview-scale-wrapper {
+        transform: scale(0.34); /* Extra shrinkage for smaller mobile devices */
+        margin-bottom: -19.5cm;
+    }
+    .preview-panel {
+        min-height: 400px;
     }
 }
