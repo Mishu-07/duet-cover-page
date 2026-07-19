@@ -954,3 +954,39 @@ details[open].expandable-section summary h3::after {
     margin-top: 4px;
     color: rgba(255, 255, 255, 0.85);
 }
+
+/* Add this at the bottom of style.css */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column; /* Stacks form and preview panels vertically */
+    }
+
+    .form-panel {
+        flex: none;
+        width: 100%;
+        max-height: none;
+    }
+
+    .preview-panel {
+        padding: 10px;
+        width: 100%;
+        overflow-x: auto;
+        justify-content: center;
+        align-items: center;
+        min-height: 500px;
+    }
+
+    /* Dynamically downscales the strict 21cm width to fit small viewpoints */
+    #cover-page {
+        transform: scale(0.45); /* Adjust this scale number if it's too small/large */
+        transform-origin: top center;
+        margin-bottom: -16cm; /* Offsets empty space caused by scaling an A4 element */
+    }
+}
+
+@media (max-width: 480px) {
+    #cover-page {
+        transform: scale(0.35); /* Shrinks it a bit more for narrower mobile devices */
+        margin-bottom: -19cm;
+    }
+}
