@@ -544,13 +544,23 @@ details[open].expandable-section summary h3::after {
 .assignment-title {
     display: none;
     text-align: center;
-    font-size: 18pt;
+    font-size: 20pt;
     font-weight: bold;
-    margin-top: 25px;
+    letter-spacing: 0.03em;
+    color: #000;
+    border-top: 1.5px solid #000;
+    border-bottom: 1.5px solid #000;
+    padding: 10px 0;
+    margin-top: 60px;
+    margin-bottom: 40px;
 }
 
 #cover-page[data-mode="assignment"] .preview-report-mode {
     display: block;
+}
+
+#cover-page[data-mode="assignment"] .date-row {
+    margin-top: 45px;
 }
 
 #cover-page[data-mode="assignment"] .report-details {
@@ -559,6 +569,14 @@ details[open].expandable-section summary h3::after {
 
 #cover-page[data-mode="assignment"] .assignment-title {
     display: block;
+}
+
+#cover-page[data-mode="assignment"] .submitted-by-section {
+    margin-top: 50px;
+}
+
+#cover-page[data-mode="assignment"] .submitted-to-section {
+    margin-top: 60px;
 }
 
 #cover-page[data-mode="assignment"] .submitted-to-columns {
@@ -573,7 +591,6 @@ details[open].expandable-section summary h3::after {
     width: 60%;
     text-align: center;
 }
-
 /* ==================================================== */
 /* NEW PROJECT/GROUP MODE STYLES                        */
 /* ==================================================== */
