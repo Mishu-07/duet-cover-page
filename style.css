@@ -539,6 +539,42 @@ details[open].expandable-section summary h3::after {
 }
 
 /* ==================================================== */
+/* ASSIGNMENT MODE STYLES (individual, single faculty)   */
+/* ==================================================== */
+.assignment-title {
+    display: none;
+    text-align: center;
+    font-size: 18pt;
+    font-weight: bold;
+    margin-top: 25px;
+}
+
+#cover-page[data-mode="assignment"] .preview-report-mode {
+    display: block;
+}
+
+#cover-page[data-mode="assignment"] .report-details {
+    display: none;
+}
+
+#cover-page[data-mode="assignment"] .assignment-title {
+    display: block;
+}
+
+#cover-page[data-mode="assignment"] .submitted-to-columns {
+    justify-content: center;
+}
+
+#cover-page[data-mode="assignment"] .submitted-to-columns .column:nth-child(2) {
+    display: none;
+}
+
+#cover-page[data-mode="assignment"] .submitted-to-columns .column:nth-child(1) {
+    width: 60%;
+    text-align: center;
+}
+
+/* ==================================================== */
 /* NEW PROJECT/GROUP MODE STYLES                        */
 /* ==================================================== */
 .preview-group-mode {
