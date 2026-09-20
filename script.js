@@ -244,6 +244,10 @@ document.addEventListener('DOMContentLoaded', () => {
         elements.submittedToDesignation1Output.textContent = elements.submittedToDesignation1Input.value;
         elements.submittedToDept1Output.textContent = elements.submittedToDept1Input.value;
         elements.submittedToCampus1Output.textContent = elements.submittedToCampus1Input.value;
+        if (elements.coverPage.dataset.mode === "assignment") {
+            elements.submittedToDept1Output.textContent = "Department of Computer Science and Engineering";
+            elements.submittedToCampus1Output.textContent = "Dhaka University of Engineering & Technology, Gazipur";
+        }
 
         elements.submittedToName2Output.textContent = elements.submittedToName2Input.value;
         elements.submittedToDesignation2Output.textContent = elements.submittedToDesignation2Input.value;
@@ -498,8 +502,8 @@ document.addEventListener('DOMContentLoaded', () => {
             elements.docTitleInput.value = "PROJECT REPORT";
         }
     
-        elements.declarationToggle.checked = isIndividual;
-        elements.declarationBox.classList.toggle("hidden", !isIndividual);
+        elements.declarationToggle.checked = mode === "report";
+        elements.declarationBox.classList.toggle("hidden", mode !== "report");
         updatePreview();
     };
     elements.modeRadios.forEach(radio => {
