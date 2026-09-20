@@ -30,6 +30,10 @@
                         <input type="radio" name="cover-mode" id="mode-project" value="project">
                         <span>Project Report</span>
                     </label>
+                    <label class="mode-option">
+                        <input type="radio" name="cover-mode" id="mode-assignment" value="assignment">
+                        <span>Assignment</span>
+                    </label>
                 </div>
 
                 <label class="toggle-row">
@@ -54,8 +58,10 @@
                 <input type="text" id="section" placeholder="Section (e.g., B)">
 
                 <div class="mode-fields" id="fields-report">
-                    <input type="text" id="report-no" placeholder="Report No.">
-                    <input type="text" id="report-name" placeholder="Report Name">
+                    <div id="report-no-name-fields">
+                            <input type="text" id="report-no" placeholder="Report No.">
+                            <input type="text" id="report-name" placeholder="Report Name">
+                    </div>
 
                     <h3>Submitted By:</h3>
                     <input type="text" id="student-name" placeholder="Student Name">
@@ -210,6 +216,7 @@
                         <p><strong>Report No: </strong><span id="output-report-no"></span></p>
                         <p><strong>Report Name: </strong><span id="output-report-name"></span></p>
                     </div>
+                    <h2 class="assignment-title">Assignment</h2>
                 </div>
 
                 <div class="preview-report-mode">
