@@ -95,6 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
         declarationToggle: document.getElementById('declaration-toggle'),
         fieldsReport: document.getElementById('fields-report'),
         fieldsGroup: document.getElementById('fields-group'),
+        reportNoNameFields: document.getElementById('report-no-name-fields'),
 
         // Project mode inputs
         docTitleInput: document.getElementById('doc-title'),
@@ -484,20 +485,23 @@ document.addEventListener('DOMContentLoaded', () => {
     elements.printPdfBtn.addEventListener('click', handlePrintPdf);
 
     const setMode = (mode) => {
-        const isReport = mode === "report";
+        const isProject = mode === "project";
+        const isAssignment = mode === "assignment";
+        const isIndividual = !isProject; // report or assignment
+    
         elements.coverPage.dataset.mode = mode;
-        elements.fieldsReport.classList.toggle("hidden", !isReport);
-        elements.fieldsGroup.classList.toggle("hidden", isReport);
-
-        if (!isReport && !elements.docTitleInput.value.trim()) {
+        elements.fieldsReport.classList.toggle("hidden", isProject);
+        elements.fieldsGroup.classList.toggle("hidden", !isProject);
+        elements.reportNoNameFields.classList.toggle("hidden", isAssignment);
+    
+        if (isProject && !elements.docTitleInput.value.trim()) {
             elements.docTitleInput.value = "PROJECT REPORT";
         }
-
-        elements.declarationToggle.checked = isReport;
-        elements.declarationBox.classList.toggle("hidden", !isReport);
+    
+        elements.declarationToggle.checked = isIndividual;
+        elements.declarationBox.classList.toggle("hidden", !isIndividual);
         updatePreview();
     };
-
     elements.modeRadios.forEach(radio => {
         radio.addEventListener('change', (e) => setMode(e.target.value));
     });
