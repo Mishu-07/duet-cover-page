@@ -574,11 +574,11 @@ details[open].expandable-section summary h3::after {
 }
 
 #cover-page[data-mode="assignment"] .submitted-by-section {
-    margin-top: 50px;
+    margin-top: 30px;
 }
 
 #cover-page[data-mode="assignment"] .submitted-to-section {
-    margin-top: 60px;
+    margin-top: 15px;
 }
 
 #cover-page[data-mode="assignment"] .submitted-to-columns {
