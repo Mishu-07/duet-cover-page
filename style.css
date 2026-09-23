@@ -574,7 +574,7 @@ details[open].expandable-section summary h3::after {
 }
 
 #cover-page[data-mode="assignment"] .submitted-by-section {
-    margin-top: 30px;
+    margin-top: 5px;
 }
 
 #cover-page[data-mode="assignment"] .submitted-to-section {
